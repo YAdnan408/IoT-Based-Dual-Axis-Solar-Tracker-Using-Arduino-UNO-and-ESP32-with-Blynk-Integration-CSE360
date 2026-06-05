@@ -1,0 +1,64 @@
+int topleft;
+int topright;
+int downleft;
+int downright;
+int waittime = 1;
+
+void setup() {
+pinMode(9, OUTPUT);
+pinMode(10, OUTPUT);
+Serial.begin(9600);
+ICR1 = 40000;
+OCR1A = 3000;
+OCR1B = 3600;
+}
+
+void loop() {
+topleft = analogRead(A0);
+topright = analogRead(A1);
+downleft = analogRead(A2);
+downright = analogRead(A3);
+Serial.print("A0 =");
+Serial.println(topleft);
+Serial.print("A1 =");
+Serial.println(topright);
+Serial.print("A2 =");
+Serial.println(downleft);
+Serial.print("A3 =");
+Serial.println(downright);
+Serial.println("");
+//delay(1000);
+if (topleft > topright) {
+OCR1A = OCR1A - 1;
+delay(waittime);
+}
+if (topleft < topright) {
+OCR1A = OCR1A + 1;
+delay(waittime);
+}
+if (downleft < downright) {
+OCR1A = OCR1A + 1;
+delay(waittime);
+}
+if (OCR1A > 4000) {
+
+OCR1A = 4000;
+}
+if (OCR1A < 2000) {
+OCR1A = 2000;
+}
+if (topright > downright) {
+OCR1B = OCR1B - 1;
+delay(waittime);
+}
+if (topleft < downleft) {
+OCR1B = OCR1B + 1;
+delay(waittime);
+}
+if (topright < downright) {
+OCR1B = OCR1B + 1;
+delay(waittime);
+}
+}
+
+
